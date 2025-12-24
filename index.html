@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Christmas Ultra-Promax 💖</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:radial-gradient(circle,#ff004d,#12001a,#000);
+  overflow:hidden;
+  color:white;
+}
+
+.canvas{position:absolute;inset:0;z-index:-2}
+
+.aura{
+  position:absolute;width:120vmax;height:120vmax;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:conic-gradient(from 0deg,#ff0066,#ffaa00,#00ffc3,#7a5cff,#ff0066);
+  filter:blur(90px);animation:auraSpin 18s linear infinite;opacity:.35;
+}
+@keyframes auraSpin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+
+/* CARD */
+.card{
+  position:absolute;top:50%;left:50%;transform-style:preserve-3d;
+  transform:translate(-50%,-50%) rotateX(10deg) rotateY(-8deg);
+  background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.05));
+  padding:45px;border-radius:24px;backdrop-filter:blur(14px);
+  box-shadow:0 40px 80px rgba(255,0,90,.45);text-align:center;
+  animation:cardFloat 6s ease-in-out infinite;
+}
+@keyframes cardFloat{
+  0%,100%{transform:translate(-50%,-50%) rotateX(8deg) rotateY(-6deg);}
+  50%{transform:translate(-50%,-52%) rotateX(14deg) rotateY(-2deg);}
+}
+
+h1{font-size:42px;letter-spacing:.5px;animation:glowPulse 2s infinite alternate;}
+@keyframes glowPulse{from{text-shadow:0 0 16px #ffd700;}to{text-shadow:0 0 38px #ffdd88;}}
+.name{color:#ffd700;font-weight:700}
+
+/* BUTTON */
+.btn{
+  margin-top:20px;padding:14px 26px;border-radius:14px;border:none;
+  font-size:17px;cursor:pointer;
+  background:linear-gradient(45deg,#ff0066,#ffbb00);
+  color:white;box-shadow:0 0 28px rgba(255,255,255,.45);transition:.25s;
+}
+.btn:hover{transform:scale(1.18) rotate(-2deg);filter:brightness(1.4);}
+
+/* TYPEWRITER */
+.type{display:inline-block;border-right:2px solid white;white-space:nowrap;overflow:hidden;animation:blink 1s infinite}
+@keyframes blink{50%{border-color:transparent;}}
+
+/* MESSAGE + WOBBLE */
+#msg{
+  display:none;margin-top:16px;font-size:19px;
+  animation:fadeIn .9s forwards,wobble 1.2s ease-in-out 1;
+}
+@keyframes fadeIn{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);}}
+@keyframes wobble{
+  0%{transform:rotate(0deg) scale(1);}
+  30%{transform:rotate(-6deg) scale(1.1);}
+  60%{transform:rotate(6deg) scale(1.05);}
+  100%{transform:rotate(0deg) scale(1);}
+}
+
+/* HEARTS / RINGS / SPARKS */
+.heart{position:absolute;color:pink;font-size:22px;filter:drop-shadow(0 0 10px pink);animation:rising 4s linear forwards}
+@keyframes rising{to{transform:translateY(-160px) scale(2);opacity:0;}}
+.ring{position:absolute;border:3px solid rgba(255,255,255,.45);border-radius:50%;animation:ring 3s ease-out forwards}
+@keyframes ring{from{transform:scale(.2);opacity:.7;}to{transform:scale(2.6);opacity:0;}}
+.spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffd700;box-shadow:0 0 12px #ffd700;animation:sparkFly 1s linear forwards}
+@keyframes sparkFly{to{transform:translate(var(--x),var(--y)) scale(.2);opacity:0;}}
+
+/* CONFETTI */
+.conf{position:fixed;width:8px;height:14px;border-radius:2px;top:-20px;animation:drop 1.4s linear forwards}
+@keyframes drop{to{transform:translateY(105vh) rotate(260deg);opacity:.2;}}
+</style>
+</head>
+
+<body>
+
+<canvas class="canvas"></canvas>
+<div class="aura"></div>
+
+<div class="card">
+  <h1>Merry Christmas 🎄</h1>
+  <h2><span class="name">Dear [Her Name]</span></h2>
+  <p class="type" id="typing"></p>
+  <button class="btn" onclick="reveal()">Open Your Surprise 🎁</button>
+
+  <!-- YOUR PLAYFUL MESSAGE -->
+  <p id="msg">You + Christmas vibes = my favorite combo 😄❄️</p>
+</div>
+
+<script>
+/* TYPEWRITER */
+const text="I didn’t want to send another boring message… so I made this just for you ✨";
+let i=0;(function type(){if(i<text.length){typing.innerHTML+=text[i++];setTimeout(type,35);}})();
+
+/* GALAXY PARTICLES */
+const c=document.querySelector(".canvas"),ctx=c.getContext("2d");
+let w=innerWidth,h=innerHeight;c.width=w;c.height=h;
+let stars=[...Array(200)].map(()=>({x:Math.random()*w,y:Math.random()*h,z:Math.random()*2+1}));
+(function draw(){ctx.clearRect(0,0,w,h);stars.forEach(s=>{ctx.fillStyle=`rgba(255,255,255,${.2+s.z/3})`;ctx.beginPath();ctx.arc(s.x,s.y,s.z,0,Math.PI*2);ctx.fill();s.y+=.4*s.z;if(s.y>h){s.y=0;s.x=Math.random()*w;}});requestAnimationFrame(draw);})();
+
+/* HEART BURST */
+function hearts(){for(let i=0;i<26;i++){let h=document.createElement("div");h.className="heart";h.innerHTML="❤";h.style.left=Math.random()*innerWidth+"px";h.style.bottom="0px";document.body.appendChild(h);setTimeout(()=>h.remove(),4200);}}
+
+/* RINGS */
+function ringFX(){let r=document.createElement("div");r.className="ring";let s=120+Math.random()*240;r.style.width=s+"px";r.style.height=s+"px";r.style.left=innerWidth/2-s/2+"px";r.style.top=innerHeight/2-s/2+"px";document.body.appendChild(r);setTimeout(()=>r.remove(),3000);}
+
+/* FIREWORKS */
+function firework(x,y){for(let i=0;i<30;i++){let s=document.createElement("div");s.className="spark";s.style.left=x+"px";s.style.top=y+"px";const a=Math.random()*360,r=80+Math.random()*120;s.style.setProperty("--x",Math.cos(a)*r+"px");s.style.setProperty("--y",Math.sin(a)*r+"px");document.body.appendChild(s);setTimeout(()=>s.remove(),1000);}}
+
+/* CONFETTI */
+function confetti(){for(let i=0;i<80;i++){let d=document.createElement("div");d.className="conf";d.style.left=Math.random()*100+"%";d.style.background=`hsl(${Math.random()*360},90%,60%)`;document.body.appendChild(d);setTimeout(()=>d.remove(),1500);}}
+
+/* REVEAL */
+function reveal(){
+  msg.style.display="block";
+  hearts(); ringFX(); firework(innerWidth/2,innerHeight/2); confetti();
+}
+</script>
+
+</body>
+</html>
